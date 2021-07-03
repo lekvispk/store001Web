@@ -3,7 +3,7 @@ import http from "../http-common";
 class OrderService {
 	
   getAll() {
-    return http.get('/orders');
+    return http.get('/orders/');
   }
 
   get(id) {
@@ -11,7 +11,7 @@ class OrderService {
   }
 
   create(data) {
-    return http.post('/orders', data);
+    return http.post('/orders/', data);
   }
 
   update(id, data) {

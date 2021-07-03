@@ -46,6 +46,13 @@ export default class OrderList extends Component {
       });
   }
 
+  setActiveOrder(order, index) {
+    this.setState({
+      currentOrder: order,
+      currentIndex: index
+    });
+  }
+
   refreshList() {
     this.retrieveOrders();
     this.setState({
@@ -68,7 +75,7 @@ export default class OrderList extends Component {
   }
  
   render() {
-    const { searchTitle, tutorials, currentTutorial, currentIndex } = this.state;
+    const { searchTitle, orders, currentOrder, currentIndex } = this.state;
 
     return (
       <div className="list row">
@@ -77,7 +84,7 @@ export default class OrderList extends Component {
             <input
               type="text"
               className="form-control"
-              placeholder="Search by title"
+              placeholder="Search by number"
               value={searchTitle}
               onChange={this.onChangeSearchTitle}
             />
@@ -104,49 +111,68 @@ export default class OrderList extends Component {
 
         <div className="col-md-6">
           <h4>Orders List</h4>
-
-          <ul className="list-group">
-            {tutorials &&
-              tutorials.map((tutorial, index) => (
-                <li
+          
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Number</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+            {orders &&
+              orders.map((order, index) => ( 
+                <tr
                   className={
-                    "list-group-item " +
+                    " " +
                     (index === currentIndex ? "active" : "")
                   }
-                  onClick={() => this.setActiveTutorial(tutorial, index)}
+                  onClick={() => this.setActiveOrder(order, index)}
                   key={index}
                 >
-                  {tutorial.title}
-                </li>
+                  <td>{order.orderNumber}</td>
+                  <td>{order.date}</td>
+                  <td>{order.customer}</td>
+                  <td></td>
+                </tr> 
               ))}
-          </ul>
+              </tbody>
+          </table>
 
         </div>
         <div className="col-md-6">
-          {currentTutorial ? (
+          {currentOrder ? (
             <div>
               <h4>Orders</h4>
               <div>
                 <label>
-                  <strong>Title:</strong>
+                  <strong>Number:</strong>
                 </label>{" "}
-                {currentTutorial.title}
+                {currentOrder.orderNumber}
+              </div>
+               <div>
+                <label>
+                  <strong>Customer:</strong>
+                </label>{" "}
+                {currentOrder.customer}
               </div>
               <div>
                 <label>
-                  <strong>Description:</strong>
+                  <strong>Date:</strong>
                 </label>{" "}
-                {currentTutorial.description}
+                {currentOrder.date}
               </div>
               <div>
                 <label>
                   <strong>Status:</strong>
                 </label>{" "}
-                {currentTutorial.published ? "Published" : "Pending"}
+                {currentOrder.status}
               </div>
 
               <Link
-                to={"/orders/" + currentTutorial.id}
+                to={"/orders/" + currentOrder.id}
                 className="badge badge-warning" >
                 Edit
               </Link>

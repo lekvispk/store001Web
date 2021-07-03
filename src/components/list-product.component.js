@@ -13,12 +13,12 @@ export default class ProductList extends Component {
     this.searchTitle = this.searchTitle.bind(this);
 
     this.state = {
-      orders: [],
-      currentOrder: null,
+      products: [],
+      currentProduct: null,
       currentIndex: -1,
       searchTitle: ""
     };
-    
+
   }
 
   componentDidMount() {
@@ -37,7 +37,7 @@ export default class ProductList extends Component {
     ProductService.getAll()
       .then(response => {
         this.setState({
-          orders: response.data
+          products: response.data
         });
         console.log(response.data);
       })
@@ -46,10 +46,17 @@ export default class ProductList extends Component {
       });
   }
 
+ setActiveProduct(product, index) {
+    this.setState({
+      currentProduct: product,
+      currentIndex: index
+    });
+  }
+
   refreshList() {
     this.retrieveProducts();
     this.setState({
-      currentOrder: null,
+      currentProduct: null,
       currentIndex: -1
     });
   }
@@ -58,7 +65,7 @@ export default class ProductList extends Component {
     ProductService.findByTitle(this.state.searchTitle)
       .then(response => {
         this.setState({
-          orders: response.data
+          products: response.data
         });
         console.log(response.data);
       })
@@ -68,7 +75,8 @@ export default class ProductList extends Component {
   }
 
   render() {
-    const { searchTitle, tutorials, currentProduct, currentIndex } = this.state;
+
+    const { searchTitle, products, currentProduct, currentIndex } = this.state;
 
     return (
       <div className="list row">
@@ -77,7 +85,7 @@ export default class ProductList extends Component {
             <input
               type="text"
               className="form-control"
-              placeholder="Search by title"
+              placeholder="Search by name"
               value={searchTitle}
               onChange={this.onChangeSearchTitle}
             />
@@ -95,17 +103,17 @@ export default class ProductList extends Component {
           <h4>Products List</h4>
 
           <ul className="list-group">
-            {tutorials &&
-              tutorials.map((tutorial, index) => (
+            {products &&
+              products.map((product, index) => (
                 <li
                   className={
                     "list-group-item " +
                     (index === currentIndex ? "active" : "")
                   }
-                  onClick={() => this.setActiveTutorial(tutorial, index)}
+                  onClick={() => this.setActiveProduct(product, index)}
                   key={index}
                 >
-                  {tutorial.title}
+                  {product.name}
                 </li>
               ))}
           </ul>
@@ -114,24 +122,24 @@ export default class ProductList extends Component {
         <div className="col-md-6">
           {currentProduct ? (
             <div>
-              <h4>Orders</h4>
+              <h4>Product</h4>
               <div>
                 <label>
-                  <strong>Title:</strong>
+                  <strong>Name:</strong>
                 </label>{" "}
-                {currentProduct.title}
+                {currentProduct.name}
               </div>
               <div>
                 <label>
-                  <strong>Description:</strong>
+                  <strong>Category:</strong>
                 </label>{" "}
-                {currentProduct.description}
+                {currentProduct.category}
               </div>
               <div>
                 <label>
                   <strong>Status:</strong>
                 </label>{" "}
-                {currentProduct.published ? "Published" : "Pending"}
+                {currentProduct.active ? "Active" : "Inactive"}
               </div>
 
               <Link

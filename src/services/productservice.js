@@ -3,7 +3,7 @@ import http from "../http-common";
 class ProductService {
 	
   getAll() {
-    return http.get('/products');
+    return http.get('/products/');
   }
 
   get(id) {
@@ -11,7 +11,7 @@ class ProductService {
   }
 
   create(data) {
-    return http.post('/products', data);
+    return http.post('/products/', data);
   }
 
   update(id, data) {
@@ -27,7 +27,7 @@ class ProductService {
   }
 
   findByTitle(title) {
-    return http.get('/products?title=${title}');
+    return http.get('/products?name=${title}');
   }
 }
 
