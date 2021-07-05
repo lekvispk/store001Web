@@ -78,47 +78,30 @@ export default class OrderList extends Component {
     const { searchTitle, orders, currentOrder, currentIndex } = this.state;
 
     return (
-      <div className="list row">
-        <div className="col-md-8">
-          <div className="input-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search by number"
-              value={searchTitle}
-              onChange={this.onChangeSearchTitle}
-            />
-            <div className="input-group-append">
-              <button
-                className="btn btn-outline-secondary"
-                type="button"
-                onClick={this.searchTitle} >
-                Search
-              </button>
-            </div>
-          </div>
-        </div>
+      <div className="list row"> 
 
-        <div className="list row">
-          <div className="col-md-12"> 
-               
+       
+
+        <div className="col-md-12">
+          <h4>Orders List</h4>
+
+          <div className="list row"> 
+            <div className="col-md-12">
               <Link to={"/ordersForm"} className="btn btn-outline-primary">
                 Create Order
               </Link>
-
+            </div>
           </div>
-        </div>
-
-        <div className="col-md-6">
-          <h4>Orders List</h4>
           
           <table className="table">
             <thead>
               <tr>
-                <th>Number</th>
-                <th>Date</th>
-                <th>Customer</th>
-                <th></th>
+                <th>N</th>
+                <th>Consumer</th>
+                <th>Status</th>
+                <th>Date</th> 
+                <th>Total</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -132,58 +115,26 @@ export default class OrderList extends Component {
                   onClick={() => this.setActiveOrder(order, index)}
                   key={index}
                 >
-                  <td>{order.orderNumber}</td>
-                  <td>{order.date}</td>
+                  <td>{index+1}</td>
                   <td>{order.customer}</td>
-                  <td></td>
+                  <td>{order.staus}</td>
+                  <td>{order.date}</td> 
+                  <td>{order.totalAmount}</td> 
+                  <td> 
+                    <Link
+                        to={"/ordersForm/" + order.id}
+                        className="badge badge-info" >
+                        Edit
+                    </Link>
+
+                  </td>
                 </tr> 
               ))}
               </tbody>
           </table>
 
         </div>
-        <div className="col-md-6">
-          {currentOrder ? (
-            <div>
-              <h4>Orders</h4>
-              <div>
-                <label>
-                  <strong>Number:</strong>
-                </label>{" "}
-                {currentOrder.orderNumber}
-              </div>
-               <div>
-                <label>
-                  <strong>Customer:</strong>
-                </label>{" "}
-                {currentOrder.customer}
-              </div>
-              <div>
-                <label>
-                  <strong>Date:</strong>
-                </label>{" "}
-                {currentOrder.date}
-              </div>
-              <div>
-                <label>
-                  <strong>Status:</strong>
-                </label>{" "}
-                {currentOrder.status}
-              </div>
-
-              <Link
-                to={"/orders/" + currentOrder.id}
-                className="badge badge-warning" >
-                Edit
-              </Link>
-            </div>
-          ) : (
-            <div>
-              <br />
-              <p>Please click on a Order...</p>
-            </div>
-          )}
-        </div>
+        
       </div>
     );
 

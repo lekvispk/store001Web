@@ -7,7 +7,7 @@ class ProductService {
   }
 
   get(id) {
-    return http.get('/products/${id}');
+    return http.get('/products/'+id);
   }
 
   create(data) {
@@ -15,11 +15,11 @@ class ProductService {
   }
 
   update(id, data) {
-    return http.put('/products/${id}', data);
+    return http.put('/products/'+id, data);
   }
 
   delete(id) {
-    return http.delete('/products/${id}');
+    return http.delete('/products/'+id);
   }
 
   deleteAll() {
@@ -27,7 +27,7 @@ class ProductService {
   }
 
   findByTitle(title) {
-    return http.get('/products?name=${title}');
+    return http.get('/products?name=' + title);
   }
 }
 

@@ -80,81 +80,60 @@ export default class ProductList extends Component {
 
     return (
       <div className="list row">
-        <div className="col-md-8">
-          <div className="input-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search by name"
-              value={searchTitle}
-              onChange={this.onChangeSearchTitle}
-            />
-            <div className="input-group-append">
-              <button
-                className="btn btn-outline-secondary"
-                type="button"
-                onClick={this.searchTitle} >
-                Search
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-6">
-          <h4>Products List</h4>
+        
+        <div className="col-md-12">
 
-          <ul className="list-group">
+          <h4>Products</h4>
+
+            <div className="col-md-8">
+              <Link
+                  to={"/productsForm"}
+                  className="btn btn-info" >
+                  Create Product
+                </Link>
+            </div>
+
+          <table className="table">
+            <thead>
+              <tr>
+                <th>N</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>         
             {products &&
               products.map((product, index) => (
-                <li
+                 <tr 
                   className={
-                    "list-group-item " +
+                    " " +
                     (index === currentIndex ? "active" : "")
                   }
                   onClick={() => this.setActiveProduct(product, index)}
                   key={index}
-                >
-                  {product.name}
-                </li>
+                  >
+                    <td>{index+1}</td>
+                    <td>{product.name}</td>
+                    <td>{product.category}</td>
+                    <td>{product.unitPrice}</td>
+                    <td>{product.active=='true'? 'Active' : 'Inactive'}</td>
+                    <td>
+                      <Link
+                        to={"/productsForm/" + product.id}
+                        className="badge badge-info" >
+                        Edit
+                      </Link>
+                    </td>
+                  </tr>
               ))}
-          </ul>
+            </tbody>
+          </table>
 
         </div>
-        <div className="col-md-6">
-          {currentProduct ? (
-            <div>
-              <h4>Product</h4>
-              <div>
-                <label>
-                  <strong>Name:</strong>
-                </label>{" "}
-                {currentProduct.name}
-              </div>
-              <div>
-                <label>
-                  <strong>Category:</strong>
-                </label>{" "}
-                {currentProduct.category}
-              </div>
-              <div>
-                <label>
-                  <strong>Status:</strong>
-                </label>{" "}
-                {currentProduct.active ? "Active" : "Inactive"}
-              </div>
-
-              <Link
-                to={"/products/" + currentProduct.id}
-                className="badge badge-warning" >
-                Edit
-              </Link>
-            </div>
-          ) : (
-            <div>
-              <br />
-              <p>Please click on a Product...</p>
-            </div>
-          )}
-        </div>
+         
       </div>
     );
 
